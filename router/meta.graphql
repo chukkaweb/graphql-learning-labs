@@ -1,0 +1,25 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@external"])
+  @link(
+    url: "https://specs.apollo.dev/connect/v0.1"
+    import: ["@connect", "@source"]
+  )
+  @source(
+    name: "blogapi"
+    http: { baseURL: "http://localhost:3000", headers: [] }
+  )
+
+type HealthResponse {
+  msg: String
+}
+
+type Query {
+  healthCheck: HealthResponse
+    @connect(
+      source: "blogapi"
+      http: { GET: "/" }
+      selection: """
+      msg
+      """
+    )
+}

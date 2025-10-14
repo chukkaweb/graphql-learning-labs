@@ -1,0 +1,50 @@
+directive @contact(name: String!, url: String, description: String) on SCHEMA
+
+extend schema
+  @contact(
+    name: "Article Server"
+    url: "https://myteam.slack.com/archives/teams-chat-room-url"
+    description: "send urgent issues to [#oncall](https://yourteam.slack.com/archives/oncall)."
+  )
+  @link(
+    url: "https://specs.apollo.dev/federation/v2.3"
+    import: [
+      "@key"
+      "@extends"
+      "@shareable"
+      "@inaccessible"
+      "@override"
+      "@external"
+      "@provides"
+      "@requires"
+      "@tag"
+      "@composeDirective"
+      "@interfaceObject"
+    ]
+  )
+
+extend type Author @key(fields: "id") @extends {
+  id: ID! @external
+  listArticles: [Article!]!
+  latestArticle: Article
+}
+
+type Article @key(fields: "id") @extends {
+  id: ID!
+  title: String
+  content: String
+  authorId: ID
+  author: Author
+  summary: String
+}
+
+type Query {
+  getArticle(id: ID!): Article
+  listArticles: [Article!]!
+}
+
+type Mutation {
+  createArticle(title: String!, content: String, authorId: String!): Article!
+  updateArticle(id: ID!, title: String, content: String): Article!
+  deleteArticle(id: ID!): Boolean!
+}

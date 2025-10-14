@@ -1,0 +1,50 @@
+directive @contact(name: String!, url: String, description: String) on SCHEMA
+
+extend schema
+  @contact(
+    name: "Comments Server"
+    url: "https://myteam.slack.com/archives/teams-chat-room-url"
+    description: "send urgent issues to [#oncall](https://yourteam.slack.com/archives/oncall)."
+  )
+  @link(
+    url: "https://specs.apollo.dev/federation/v2.3"
+    import: [
+      "@key"
+      "@extends"
+      "@shareable"
+      "@inaccessible"
+      "@override"
+      "@external"
+      "@provides"
+      "@requires"
+      "@tag"
+      "@composeDirective"
+      "@interfaceObject"
+    ]
+  )
+
+extend type Author @key(fields: "id") @extends {
+  id: ID! @external
+  comments: [Comments!]!
+  name: String @shareable @external
+}
+
+extend type Article @key(fields: "id") @extends {
+  id: ID! @external
+  comments: [Comments!]!
+}
+
+type Comments @key(fields: "id") @extends {
+  id: ID!
+  authorId: ID!
+  articleId: ID!
+  content: String
+  author: Author @provides(fields: "name") @tag(name: "internal")
+  article: Article
+  authorName: String @inaccessible
+}
+
+type Query {
+  getCommentsOnArticle(articleId: ID!): [Comments!]!
+  getCommentsByAuthor(authorId: ID!): [Comments!]!
+}

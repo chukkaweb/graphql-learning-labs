@@ -1,0 +1,20 @@
+# This is a template file. The variables will be replaced by the compose.sh script.
+federation_version: =2.11.0
+subgraphs:
+  blog-rest-meta:
+    routing_url: ${GQ_ROUTE_ROUTER}
+    schema:
+      file: meta.graphql
+  author:
+    routing_url: ${GQ_ROUTE_AUTHOR}
+    schema:
+      subgraph_url: ${GQ_ROUTE_AUTHOR}
+  article:
+    routing_url: ${GQ_ROUTE_ARTICLE}
+    schema:
+      subgraph_url: ${GQ_ROUTE_ARTICLE}
+  comments:
+    routing_url: ${GQ_ROUTE_COMMENTS}
+    schema:
+      subgraph_url: ${GQ_ROUTE_COMMENTS}
+

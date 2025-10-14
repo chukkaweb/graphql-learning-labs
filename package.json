@@ -1,0 +1,27 @@
+{
+  "name": "rest-sub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "postinstall": "concurrently 'cd rest-api && pnpm i' 'cd author-subgraph && pnpm i' 'cd article-subgraph && pnpm i' 'cd router && pnpm i'",
+    "dev": "concurrently -n 'services,router' 'pnpm dev:services' 'pnpm:delay-router'",
+    "dev:services": "concurrently -n 'rest,author,article, comments' 'pnpm dev:rest' 'pnpm dev:author' 'pnpm dev:article' 'pnpm dev:comments'",
+    "delay-router": "wait-on tcp:4001 tcp:4002 tcp:3000 tcp:4003 && pnpm dev:router",
+    "dev:rest": "cd rest-api && pnpm dev",
+    "dev:author": "cd author-subgraph && pnpm dev",
+    "dev:article": "cd article-subgraph && pnpm dev",
+    "dev:comments": "cd comments-subgraph && pnpm dev",
+    "dev:router": "cd router && pnpm dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.15.0",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "wait-on": "^9.0.1"
+  }
+}

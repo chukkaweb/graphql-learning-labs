@@ -1,0 +1,12 @@
+{
+  "name": "graphql-learning-labs",
+  "version": "1.0.0",
+  "description": "Hands-on GraphQL + Apollo + Federation learning repository with notes, code examples, and real-world scenarios. Each topic is maintained in a separate feature branch with practical examples and detailed notes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
